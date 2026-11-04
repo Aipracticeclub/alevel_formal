@@ -1,0 +1,13 @@
+{
+  "name": "as-level-maths-club",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=24.0.0 <25" },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env backend/server.js",
+    "dev": "node --env-file-if-exists=.env --watch backend/server.js",
+    "import": "node --env-file-if-exists=.env database/import.js",
+    "test": "node --test"
+  }
+}

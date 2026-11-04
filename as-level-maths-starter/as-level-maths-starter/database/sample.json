@@ -1,0 +1,30 @@
+[
+  {
+    "id": "demo-001",
+    "syllabus": "demo-1",
+    "difficulty": "easy",
+    "question": "[Placeholder] Replace with an AS Level Mathematics question.",
+    "answer": "[Placeholder] Replace with the checked answer."
+  },
+  {
+    "id": "demo-002",
+    "syllabus": "demo-1",
+    "difficulty": "medium",
+    "question": "[Placeholder] Second question slot for testing the connection.",
+    "answer": "[Placeholder] Second answer slot."
+  },
+  {
+    "id": "demo-003",
+    "syllabus": "demo-2",
+    "difficulty": "medium",
+    "question": "[Placeholder] Third question slot for testing filters.",
+    "answer": "[Placeholder] Third answer slot."
+  },
+  {
+    "id": "demo-004",
+    "syllabus": "demo-2",
+    "difficulty": "hard",
+    "question": "[Placeholder] Fourth question slot for testing pagination.",
+    "answer": "[Placeholder] Fourth answer slot."
+  }
+]

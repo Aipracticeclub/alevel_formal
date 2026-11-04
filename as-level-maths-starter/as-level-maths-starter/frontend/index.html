@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7f4">
+  <title>AS Level Mathematics</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <main class="page-shell">
+    <header class="page-header">
+      <p class="eyebrow">Placeholder records only</p>
+      <h1>AS Level Mathematics</h1>
+    </header>
+    <section class="search-panel" aria-label="Search questions">
+      <form id="search-form" class="search-form">
+        <div class="field search-field">
+          <label for="query">Search questions</label>
+          <input id="query" name="q" type="search" maxlength="200" placeholder="Search question text or syllabus" autocomplete="off">
+        </div>
+        <div class="field syllabus-field">
+          <label for="syllabus">Syllabus position</label>
+          <input id="syllabus" name="syllabus" type="text" maxlength="120" placeholder="e.g. demo-1" autocomplete="off">
+        </div>
+        <div class="field difficulty-field">
+          <label for="difficulty">Difficulty</label>
+          <select id="difficulty" name="difficulty">
+            <option value="">All difficulties</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+        <button class="search-button" type="submit">Search</button>
+      </form>
+    </section>
+    <section class="results-section" aria-label="Question results">
+      <p id="results-count" class="results-count" aria-live="polite"></p>
+      <div id="message" class="message" role="status" aria-live="polite"></div>
+      <ol id="results" class="results-list" aria-label="Questions"></ol>
+      <nav id="pagination" class="pagination" aria-label="Question pages" hidden>
+        <button id="previous" class="page-button" type="button">Previous</button>
+        <span id="page-indicator" class="page-indicator"></span>
+        <button id="next" class="page-button" type="button">Next</button>
+      </nav>
+    </section>
+  </main>
+</body>
+</html>
