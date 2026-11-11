@@ -74,6 +74,8 @@ Make a focused commit and open a pull request. Include the change, affected modu
 The affected module owner reviews it; F coordinates acceptance; C handles server releases.
 Do not push to `main`, publish, or change the server unless the student asks.
 
+check before upload, make sure no private information, ai api keys or passwords is uploaded.
+
 ## When you finish
 Give a short report: files changed, behavior changed, tests run, and anything another teammate must do.
 Do not claim a browser or server test passed unless you actually ran it.
