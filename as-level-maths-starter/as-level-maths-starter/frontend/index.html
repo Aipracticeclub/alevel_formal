@@ -3,49 +3,372 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f5f7f4">
-  <title>AS Level Mathematics</title>
-  <link rel="stylesheet" href="/styles.css">
-  <script src="/app.js" defer></script>
+  <meta name="theme-color" content="#241f5c">
+  <meta name="description" content="Search IGCSE Computer Science questions, practise them, and track your accuracy by syllabus topic.">
+  <title>IGCSE Computer Science — Question Bank</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
 </head>
 <body>
-  <main class="page-shell">
-    <header class="page-header">
-      <p class="eyebrow">Placeholder records only</p>
-      <h1>AS Level Mathematics</h1>
-    </header>
-    <section class="search-panel" aria-label="Search questions">
-      <form id="search-form" class="search-form">
-        <div class="field search-field">
-          <label for="query">Search questions</label>
-          <input id="query" name="q" type="search" maxlength="200" placeholder="Search question text or syllabus" autocomplete="off">
-        </div>
-        <div class="field syllabus-field">
-          <label for="syllabus">Syllabus position</label>
-          <input id="syllabus" name="syllabus" type="text" maxlength="120" placeholder="e.g. demo-1" autocomplete="off">
-        </div>
-        <div class="field difficulty-field">
-          <label for="difficulty">Difficulty</label>
-          <select id="difficulty" name="difficulty">
-            <option value="">All difficulties</option>
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
-          </select>
-        </div>
-        <button class="search-button" type="submit">Search</button>
-      </form>
-    </section>
-    <section class="results-section" aria-label="Question results">
-      <p id="results-count" class="results-count" aria-live="polite"></p>
-      <div id="message" class="message" role="status" aria-live="polite"></div>
-      <ol id="results" class="results-list" aria-label="Questions"></ol>
-      <nav id="pagination" class="pagination" aria-label="Question pages" hidden>
-        <button id="previous" class="page-button" type="button">Previous</button>
-        <span id="page-indicator" class="page-indicator"></span>
-        <button id="next" class="page-button" type="button">Next</button>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="#home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="7" y="7" width="10" height="10" rx="2"></rect>
+            <path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"></path>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <strong>IGCSE CS</strong>
+          <small>Computer Science</small>
+        </span>
+      </a>
+
+      <nav class="tabs" aria-label="Main sections">
+        <a class="tab" href="#home" data-tab="home">Home</a>
+        <a class="tab" href="#practice" data-tab="practice">Practice</a>
+        <a class="tab" href="#profile" data-tab="profile">Profile</a>
+        <a class="tab" href="#ai" data-tab="ai">AI explain</a>
       </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= HOME ================= -->
+    <section class="view" id="view-home" aria-labelledby="home-title">
+      <div class="hero">
+        <div class="shell">
+          <div class="hero-grid">
+            <div class="hero-copy">
+              <p class="eyebrow">Syllabus-indexed practice</p>
+              <h1 class="hero-title" id="home-title">Find the question.<br><span class="hero-accent">Then make it automatic.</span></h1>
+              <p class="hero-lede">
+                Search every question in the bank by keyword, syllabus topic or difficulty.
+                Answers open in place, so you spend your time practising rather than scrolling through slides.
+              </p>
+
+              <form class="search-panel" id="search-form" role="search">
+                <div class="search-row">
+                  <span class="search-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+                  </span>
+                  <label class="visually-hidden" for="query">Search questions</label>
+                  <input id="query" name="q" type="search" maxlength="200" autocomplete="off"
+                         placeholder="Try “binary”, “logic gates”, “sorting”…">
+                  <button class="btn btn-primary" type="submit">Search</button>
+                </div>
+
+                <div class="search-filters">
+                  <div class="field">
+                    <label for="syllabus">Syllabus topic</label>
+                    <input id="syllabus" name="syllabus" type="text" maxlength="120" autocomplete="off" placeholder="e.g. 1.1 Number systems">
+                  </div>
+
+                  <fieldset class="chip-group" id="home-difficulty">
+                    <legend>Difficulty</legend>
+                    <label class="chip"><input type="radio" name="difficulty" value="" checked><span>All</span></label>
+                    <label class="chip"><input type="radio" name="difficulty" value="easy"><span>Easy</span></label>
+                    <label class="chip"><input type="radio" name="difficulty" value="medium"><span>Medium</span></label>
+                    <label class="chip"><input type="radio" name="difficulty" value="hard"><span>Hard</span></label>
+                  </fieldset>
+
+                  <button class="btn btn-ghost" type="button" id="clear-filters">Reset</button>
+                </div>
+              </form>
+            </div>
+
+            <aside class="hero-aside">
+              <article class="today-card" aria-labelledby="today-title">
+                <div class="today-head">
+                  <h2 class="today-title" id="today-title">Today’s question</h2>
+                  <span class="tag tag-syllabus" id="today-syllabus">—</span>
+                </div>
+                <p class="today-question" id="today-question">Reading the bank…</p>
+                <div class="today-foot">
+                  <span class="tag" id="today-difficulty">—</span>
+                  <button class="btn btn-ghost btn-sm" id="today-practice" type="button">Practise this topic</button>
+                </div>
+              </article>
+
+              <article class="position-card" aria-labelledby="position-title">
+                <h2 class="position-title" id="position-title">Browse by topic</h2>
+                <div class="position-chips" id="position-chips"></div>
+              </article>
+            </aside>
+          </div>
+
+          <dl class="stat-strip">
+            <div><dt>Questions</dt><dd data-stat="total">—</dd></div>
+            <div><dt>Syllabus topics</dt><dd data-stat="positions">—</dd></div>
+            <div><dt>Your accuracy</dt><dd data-stat="accuracy">—</dd></div>
+            <div><dt>Error rate</dt><dd data-stat="error">—</dd></div>
+          </dl>
+        </div>
+      </div>
+
+      <!-- record board: accuracy + recently attempted questions -->
+      <section class="record-section" aria-labelledby="record-title">
+        <div class="shell">
+          <div class="section-head">
+            <p class="eyebrow">Your record</p>
+            <h2 id="record-title">Errors and what you have tried</h2>
+            <p class="sort-note">Saved in this browser only — nothing leaves your device.</p>
+          </div>
+
+          <div class="record-grid">
+            <article class="record-card">
+              <div class="ring" id="accuracy-ring" role="img" aria-label="Accuracy">
+                <span id="accuracy-value">0%</span>
+              </div>
+              <div class="record-copy">
+                <p class="record-label">Accuracy</p>
+                <p class="record-big" id="error-rate">Error rate 0%</p>
+                <p class="record-note" id="record-note">No attempts yet. Start a practice set to build your record.</p>
+                <a class="btn btn-primary btn-sm" href="#practice">Start practising</a>
+              </div>
+            </article>
+
+            <article class="record-card record-list-card">
+              <div class="record-list-head">
+                <p class="record-label">Recently attempted</p>
+                <a class="text-link" href="#profile">See full report</a>
+              </div>
+              <ol class="attempt-list" id="recent-attempts"></ol>
+              <p class="record-empty" id="recent-empty">Nothing yet — attempted questions appear here with their outcome.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="questions-section" id="questions" aria-labelledby="questions-title">
+        <div class="shell">
+          <div class="section-head">
+            <p class="eyebrow">The bank</p>
+            <h2 id="questions-title">Matches</h2>
+            <p class="sort-note">
+              Sorted by syllabus topic, then ID
+              <span class="dot-sep" aria-hidden="true">·</span>
+              <span id="results-count" aria-live="polite"></span>
+            </p>
+          </div>
+
+          <p class="message" id="message" role="status" aria-live="polite"></p>
+
+          <ol class="result-list" id="results" aria-label="Search results"></ol>
+
+          <nav class="pagination" id="pagination" aria-label="Pages" hidden>
+            <button class="btn btn-page" id="previous" type="button" aria-label="Previous page">←</button>
+            <div class="page-buttons" id="page-buttons"></div>
+            <button class="btn btn-page" id="next" type="button" aria-label="Next page">→</button>
+          </nav>
+        </div>
+      </section>
+
+      <section class="how-section" aria-labelledby="how-title">
+        <div class="shell">
+          <div class="section-head">
+            <p class="eyebrow">How it works</p>
+            <h2 id="how-title">Three steps, no friction.</h2>
+          </div>
+          <div class="how-grid">
+            <article class="how-card">
+              <span class="how-index">01</span>
+              <h3>Search by what you remember</h3>
+              <p>Type any phrase that appears in the question, or filter by the syllabus topic you are revising.</p>
+            </article>
+            <article class="how-card">
+              <span class="how-index">02</span>
+              <h3>Read the question first</h3>
+              <p>Answers stay folded away until you ask for them, so you attempt the question before checking.</p>
+            </article>
+            <article class="how-card">
+              <span class="how-index">03</span>
+              <h3>Compare against the answer</h3>
+              <p>Worked answers sit directly under each question, with the reasoning behind each step kept intact.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- ================= PRACTICE ================= -->
+    <section class="view" id="view-practice" aria-labelledby="practice-title" hidden>
+      <div class="shell view-shell">
+        <div class="section-head">
+          <p class="eyebrow">Practice</p>
+          <h2 id="practice-title">Build a set and self-mark it.</h2>
+          <p class="sort-note">Every mark goes into your record, so the error rate on the home page stays current.</p>
+        </div>
+
+        <form class="setup-card" id="practice-setup">
+          <div class="setup-row">
+            <div class="field">
+              <label for="practice-topic">Topic</label>
+              <select id="practice-topic">
+                <option value="">All topics</option>
+              </select>
+            </div>
+
+            <fieldset class="chip-group" id="practice-difficulty">
+              <legend>Difficulty</legend>
+              <label class="chip"><input type="radio" name="practice-difficulty" value="" checked><span>All</span></label>
+              <label class="chip"><input type="radio" name="practice-difficulty" value="easy"><span>Easy</span></label>
+              <label class="chip"><input type="radio" name="practice-difficulty" value="medium"><span>Medium</span></label>
+              <label class="chip"><input type="radio" name="practice-difficulty" value="hard"><span>Hard</span></label>
+            </fieldset>
+
+            <fieldset class="chip-group" id="practice-count">
+              <legend>Questions</legend>
+              <label class="chip"><input type="radio" name="practice-count" value="5"><span>5</span></label>
+              <label class="chip"><input type="radio" name="practice-count" value="10" checked><span>10</span></label>
+              <label class="chip"><input type="radio" name="practice-count" value="20"><span>20</span></label>
+            </fieldset>
+          </div>
+
+          <div class="setup-foot">
+            <p class="setup-note" id="practice-availability">Reading the bank…</p>
+            <button class="btn btn-primary" type="submit">Start set</button>
+          </div>
+        </form>
+
+        <div class="session" id="practice-session" hidden>
+          <div class="session-bar">
+            <span class="session-progress" id="session-progress">Question 1 of 10</span>
+            <span class="session-score" id="session-score">0 correct · 0 wrong</span>
+            <button class="btn btn-ghost btn-sm" type="button" id="session-end">End set</button>
+          </div>
+
+          <article class="question-card session-card">
+            <div class="card-meta">
+              <span class="tag tag-syllabus" id="session-syllabus">—</span>
+              <span class="tag" id="session-difficulty">—</span>
+            </div>
+            <h3 class="question-text" id="session-question">—</h3>
+            <details class="answer">
+              <summary>Show answer</summary>
+              <p class="answer-text" id="session-answer">—</p>
+            </details>
+          </article>
+
+          <div class="session-actions">
+            <button class="btn btn-right" type="button" id="mark-right">I got it right</button>
+            <button class="btn btn-wrong" type="button" id="mark-wrong">I got it wrong</button>
+            <button class="btn btn-ghost" type="button" id="mark-skip">Skip</button>
+          </div>
+        </div>
+
+        <div class="summary-card" id="practice-summary" hidden>
+          <p class="eyebrow">Set complete</p>
+          <h3 id="summary-line">0 of 0 correct</h3>
+          <p class="sort-note" id="summary-note"></p>
+          <div class="session-actions">
+            <button class="btn btn-primary" type="button" id="summary-again">Another set</button>
+            <a class="btn btn-ghost" href="#profile">Open my profile</a>
+          </div>
+        </div>
+
+        <p class="message" id="practice-message" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <!-- ================= PROFILE ================= -->
+    <section class="view" id="view-profile" aria-labelledby="profile-title" hidden>
+      <div class="shell view-shell">
+        <div class="section-head">
+          <p class="eyebrow">Profile</p>
+          <h2 id="profile-title">Where the marks are going.</h2>
+          <p class="sort-note">All numbers come from attempts stored in this browser.</p>
+        </div>
+
+        <div class="profile-grid">
+          <article class="profile-card profile-headline">
+            <div class="ring ring-lg" id="profile-ring" role="img" aria-label="Overall accuracy">
+              <span id="profile-accuracy">0%</span>
+            </div>
+            <div>
+              <p class="record-label">Overall accuracy</p>
+              <p class="record-big" id="profile-error">Error rate 0%</p>
+              <p class="record-note" id="profile-note">No attempts yet.</p>
+            </div>
+          </article>
+
+          <article class="profile-card">
+            <p class="record-label">Totals</p>
+            <dl class="profile-stats">
+              <div><dt>Attempts</dt><dd id="profile-attempts">0</dd></div>
+              <div><dt>Correct</dt><dd id="profile-correct">0</dd></div>
+              <div><dt>Wrong</dt><dd id="profile-wrong">0</dd></div>
+              <div><dt>Questions seen</dt><dd id="profile-seen">0</dd></div>
+            </dl>
+          </article>
+        </div>
+
+        <div class="profile-columns">
+          <article class="profile-card">
+            <p class="record-label">Accuracy by topic</p>
+            <ul class="topic-list" id="topic-list"></ul>
+            <p class="record-empty" id="topic-empty">Attempt a few questions to see a per-topic breakdown.</p>
+          </article>
+
+          <article class="profile-card">
+            <p class="record-label">Previously attempted</p>
+            <ol class="attempt-list attempt-list-full" id="attempt-history"></ol>
+            <p class="record-empty" id="history-empty">No attempts recorded yet.</p>
+            <button class="btn btn-ghost btn-sm" type="button" id="clear-history">Clear my record</button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= AI ================= -->
+    <section class="view" id="view-ai" aria-labelledby="ai-title" hidden>
+      <div class="shell view-shell">
+        <div class="section-head">
+          <p class="eyebrow">AI explain</p>
+          <h2 id="ai-title">Ask about a question.</h2>
+          <p class="sort-note">Paste a question, or pick one from the bank, and get the reasoning behind the answer.</p>
+        </div>
+
+        <div class="ai-grid">
+          <form class="ai-card" id="ai-form">
+            <label class="field" for="ai-input">
+              <span>Question or topic</span>
+              <textarea id="ai-input" rows="5" maxlength="2000" placeholder="e.g. Why does a parity check miss two-bit errors?"></textarea>
+            </label>
+            <div class="ai-actions">
+              <button class="btn btn-primary" type="submit">Explain</button>
+              <button class="btn btn-ghost btn-sm" type="button" id="ai-clear">Clear</button>
+            </div>
+            <p class="status-note" id="ai-status"></p>
+          </form>
+
+          <article class="ai-card ai-result" id="ai-result" hidden>
+            <p class="record-label">Reference answer from the bank</p>
+            <p class="ai-question" id="ai-question"></p>
+            <p class="answer-text" id="ai-answer"></p>
+          </article>
+        </div>
+
+        <article class="notice-card">
+          <p class="record-label">Status: not connected</p>
+          <p>
+            This panel is the interface only. A real answer generated by a model needs a
+            server endpoint that holds the API key — the browser must never carry one.
+            Until that exists, Explain matches your text against the question bank and shows
+            the stored worked answer.
+          </p>
+          <p class="sort-note">To switch it on, the backend needs a POST endpoint plus a key held in <code>.env</code> (role B / C).</p>
+        </article>
+      </div>
     </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <p>IGCSE Computer Science · club question bank</p>
+      <p class="footer-note">Placeholder records only. Answers are public in this practice edition.</p>
+    </div>
+  </footer>
 </body>
 </html>
